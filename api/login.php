@@ -10,8 +10,8 @@ function validate($data)
     return $data;
 }
 
-$email = validate($_POST['email']) ?? '';
-$Password = validate($_POST['password']) ?? '';
+$email = validate($_POST['email'] ?? '');
+$Password = validate($_POST['password'] ?? '');
 
 
 if (empty($email && $Password)) {
@@ -27,16 +27,11 @@ if (empty($email && $Password)) {
 
     if ($count > 0) {
         $row = mysqli_fetch_assoc($queryThis);
-        session_start();
-        $_SESSION['name'] = $row['username'];
-        $_SESSION['online'] = true;
-        $_SESSION['userid'] = $row['userid'];
-        $_SESSION['email'] = $row['email'];
         $id = $row['userid'];
         $name = $row['username'];
 
         $userinformation = ['success' => true, 'message' => "welcome $name"];
-        setcookie(session_name(), session_id(), time() + (86400 * 30), "/");
+        // setcookie(session_name(), session_id(), time() + (86400 * 30), "/");
         echo json_encode($userinformation);
     } else {
         $jsonResponse = ['success' => false, 'message' => "invalid email and password"];
